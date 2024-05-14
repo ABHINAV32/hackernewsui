@@ -16,6 +16,7 @@ export class AppComponent implements AfterViewInit {
   totalItems = 0; // Track total items count
   pageSize = 10; // Set default page size to 10
   currentPage = 0; // Track current page number
+  isLoading=false;
   dataFetched = false; // Track if data has been fetched
   pageSizeOptions: number[] = [5, 10, 20];
   private _paginator!: MatPaginator;
@@ -35,14 +36,29 @@ export class AppComponent implements AfterViewInit {
 
   getAll(): void {
     const offset = this.currentPage * this.pageSize;
-  
-    this.service.GetStories(offset, this.pageSize).subscribe(result => {
-      this.dataSource.data = result;
-      this.totalItems = result.length;
-      this.dataSource.paginator = this._paginator;
-      this.dataFetched = true;
-      this._paginator.pageSize = this.pageSize;
+    this.isLoading = true;
+
+    this.service.GetStoriesFromServer(offset, this.pageSize).subscribe(result => {
+      this.setDataProperties(result);
     });
+  }
+
+  getFromCache(): void {
+    const offset = this.currentPage * this.pageSize;
+    this.isLoading = true;
+
+    this.service.GetStories(offset, this.pageSize).subscribe(result => {
+      this.setDataProperties(result);
+    });
+  }
+
+  setDataProperties(result): void{
+    this.dataSource.data = result;
+    this.totalItems = result.length;
+    this.dataSource.paginator = this._paginator;
+    this.dataFetched = true;
+    this._paginator.pageSize = this.pageSize;
+    this.isLoading = false;
   }
   
   onPageChange(event: PageEvent): void {

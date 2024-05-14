@@ -1,7 +1,8 @@
 <div class="container">
+  <app-loader [isLoading]="isLoading"></app-loader>
   <h2>HackerNews</h2>
   <div class="center">
-    <button mat-raised-button color="primary" (click)="getAll()">Fetch Details</button>
+    <button mat-raised-button color="primary" (click)="getFromCache()">Fetch Details</button>
   </div>
   <div>
     <div class="mat-elevation-z8">
