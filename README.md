@@ -1,27 +1,36 @@
-# Hackernews
+# Angular Hacker News Components
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.3.7.
+This Angular project contains components to interact with the Hacker News API.
 
-## Development server
+## Components
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+### Story Component
 
-## Code scaffolding
+- **Description**: Displays a list of top stories retrieved from the Hacker News API.
+- **Selector**: `<app-story></app-story>`
+- **Usage**: Include the selector in your Angular template to render the component.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+### Pagination Component
 
-## Build
+- **Description**: Provides pagination functionality for navigating through a list of stories.
+- **Selector**: `<app-pagination></app-pagination>`
+- **Usage**: Include the selector in your Angular template to render the component.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+## Installation
 
-## Running unit tests
+1. Clone the repository: `git clone https://github.com/yourusername/your-repository.git`
+2. Navigate to the project directory: `cd your-repository`
+3. Install dependencies: `npm install`
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Usage
 
-## Running end-to-end tests
+1. Start the Angular development server: `ng serve`
+2. Open your web browser and navigate to `http://localhost:4200`
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+## Contributors
 
-## Further help
+- [Your Name](https://github.com/yourusername)
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## License
+
+This project is licensed under the [MIT License](LICENSE).
