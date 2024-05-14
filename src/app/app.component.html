@@ -1,0 +1,35 @@
+<div class="container">
+  <h2>HackerNews</h2>
+  <div class="center">
+    <button mat-raised-button color="primary" (click)="getAll()">Fetch Details</button>
+  </div>
+  <div>
+    <div class="mat-elevation-z8">
+      <table mat-table [dataSource]="dataSource">
+        <!-- Number Column -->
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef> Id </th>
+          <td mat-cell *matCellDef="let element; let i = index"> {{ i + 1 + pageSize * currentPage }} </td>
+        </ng-container>
+        <!-- Title Column -->
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef> Title </th>
+          <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+        </ng-container>
+        <!-- URL Column -->
+        <ng-container matColumnDef="url">
+          <th mat-header-cell *matHeaderCellDef> URL </th>
+          <td mat-cell *matCellDef="let element" (click)="navigateToUrl(element.url)" style="text-decoration: underline; cursor: pointer;">
+            {{element.url}}
+          </td>
+        </ng-container>
+        <!-- Table Rows -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <!-- Paginator -->
+      <mat-paginator [length]="totalItems" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" 
+      (page)="onPageChange($event)" showFirstLastButtons></mat-paginator>
+    </div>
+  </div>
+</div>
