@@ -4,6 +4,15 @@
   <div class="center">
     <button mat-raised-button color="primary" (click)="getFromCache()">Fetch Details</button>
   </div>
+  <div class="filter-container">
+    <mat-form-field appearance="fill" class="search-input">
+      <input matInput placeholder="Search by Title" [(ngModel)]="titleFilter">
+    </mat-form-field>
+    <mat-form-field appearance="fill" class="search-input">
+      <input matInput placeholder="Search by URL" [(ngModel)]="urlFilter">
+    </mat-form-field>
+    <button mat-raised-button color="accent" (click)="applyFilter()">Search</button>
+  </div>
   <div>
     <div class="mat-elevation-z8">
       <table mat-table [dataSource]="dataSource">

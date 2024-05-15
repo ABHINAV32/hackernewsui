@@ -20,6 +20,8 @@ export class AppComponent implements AfterViewInit {
   dataFetched = false; // Track if data has been fetched
   pageSizeOptions: number[] = [5, 10, 20];
   private _paginator!: MatPaginator;
+  titleFilter: string = ''; // Track title filter criteria
+  urlFilter: string = '';   
 
   @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
     if (paginator) {
@@ -48,7 +50,13 @@ export class AppComponent implements AfterViewInit {
     this.isLoading = true;
 
     this.service.GetStories(offset, this.pageSize).subscribe(result => {
-      this.setDataProperties(result);
+      // Apply filtering based on title and URL criteria
+      let filteredData = result.filter(story => 
+        story.title.toLowerCase().includes(this.titleFilter.toLowerCase()) &&
+        story.url.toLowerCase().includes(this.urlFilter.toLowerCase())
+      );
+
+      this.setDataProperties(filteredData);
     });
   }
 
@@ -65,10 +73,15 @@ export class AppComponent implements AfterViewInit {
     // Update current page number and fetch data for the new page
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.getAll();
+    this.getFromCache();
   }
 
   navigateToUrl(url: string): void {
     window.open(url, '_blank');
   }
+  applyFilter(): void {
+    // Apply filtering based on title and URL criteria
+    this.getFromCache();
+}
+
 }

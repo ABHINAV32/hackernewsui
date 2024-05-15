@@ -12,6 +12,9 @@ import { MatTableModule } from '@angular/material/table';
 
 import { StoryService } from './service/story.service';
 import { LoaderComponent } from './loader/loader.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { FormsModule } from '@angular/forms';
+import { MatInputModule } from '@angular/material/input';
 
 
 
@@ -25,9 +28,12 @@ import { LoaderComponent } from './loader/loader.component';
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
+    FormsModule,
     MaterialModule,
     HttpClientModule,
-    MatTableModule    
+    MatTableModule,
+    MatFormFieldModule,
+    MatInputModule,  
   ],
   providers: [
     StoryService

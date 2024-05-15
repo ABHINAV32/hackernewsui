@@ -23,7 +23,6 @@ export class StoryService {
     return this.http.get<Story[]>(this.apiurl, { params: params });
   }
 
-
   GetStoriesFromServer(pageNumber: number, pageSize: number): Observable<Story[]> {
     // Create HTTP parameters for pagination
     let params = new HttpParams()
