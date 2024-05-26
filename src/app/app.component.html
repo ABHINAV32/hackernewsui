@@ -6,10 +6,7 @@
   </div>
   <div class="filter-container">
     <mat-form-field appearance="fill" class="search-input">
-      <input matInput placeholder="Search by Title" [(ngModel)]="titleFilter">
-    </mat-form-field>
-    <mat-form-field appearance="fill" class="search-input">
-      <input matInput placeholder="Search by URL" [(ngModel)]="urlFilter">
+      <input matInput placeholder="Search by Title/URL" [(ngModel)]="titleFilter">
     </mat-form-field>
     <button mat-raised-button color="accent" (click)="applyFilter()">Search</button>
   </div>

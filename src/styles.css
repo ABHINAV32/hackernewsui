@@ -2,3 +2,33 @@
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.filter-container {
+    width: 80%;
+    max-width: 600px;
+    margin: 0 auto; /* Center the container horizontally */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center align horizontally */
+    gap: 10px;
+  }
+  
+  .search-input {
+    align-items: center;
+    flex: 1; /* Makes the input take up the remaining space in the container */
+  }
+  
+  .search-input input {
+    align-items: center;
+    height: 30px; /* Adjust height as needed */
+    font-size: 14px; /* Adjust font size as needed */
+    padding: 4px; /* Adjust padding as needed */
+  }
+  
+  button[mat-raised-button] {
+    height: 36px; /* Adjust height as needed */
+    font-size: 14px; /* Adjust font size as needed */
+    padding: 4px 16px; /* Adjust padding as needed */
+  }
+
+  

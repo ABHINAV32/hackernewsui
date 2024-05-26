@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, AfterViewInit  } from '@angular/core';
+import { Component, OnInit, ViewChild  } from '@angular/core';
 import { StoryService } from './service/story.service';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -9,30 +9,29 @@ import { Story } from './Model/Story';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements AfterViewInit {
+export class AppComponent implements OnInit {
   
   displayedColumns: string[] = ['number', 'title', 'url'];
   dataSource: MatTableDataSource<Story> = new MatTableDataSource<Story>();
-  totalItems = 0; // Track total items count
-  pageSize = 10; // Set default page size to 10
-  currentPage = 0; // Track current page number
+  totalItems = 0; 
+  pageSize = 10; 
+  currentPage = 0; 
   isLoading=false;
-  dataFetched = false; // Track if data has been fetched
+  dataFetched = false;
   pageSizeOptions: number[] = [5, 10, 20];
   private _paginator!: MatPaginator;
-  titleFilter: string = ''; // Track title filter criteria
+  titleFilter: string = '';
   urlFilter: string = '';   
+  filteredData : Story[];
+  originalData : Story[];
 
   @ViewChild(MatPaginator) set paginator(paginator: MatPaginator) {
-    if (paginator) {
       this._paginator = paginator;
-      this._paginator.pageSize = this.pageSize;
-    }
   }
 
   constructor(private service: StoryService) {}
 
-  ngAfterViewInit(): void {
+  ngOnInit(): void {
     this.getAll();
   }
 
@@ -42,6 +41,7 @@ export class AppComponent implements AfterViewInit {
 
     this.service.GetStoriesFromServer(offset, this.pageSize).subscribe(result => {
       this.setDataProperties(result);
+      this.originalData = JSON.parse(JSON.stringify(result)); 
     });
   }
 
@@ -50,17 +50,15 @@ export class AppComponent implements AfterViewInit {
     this.isLoading = true;
 
     this.service.GetStories(offset, this.pageSize).subscribe(result => {
-      // Apply filtering based on title and URL criteria
-      let filteredData = result.filter(story => 
-        story.title.toLowerCase().includes(this.titleFilter.toLowerCase()) &&
-        story.url.toLowerCase().includes(this.urlFilter.toLowerCase())
-      );
-
-      this.setDataProperties(filteredData);
+      this.setDataProperties(result);
+      this.originalData = JSON.parse(JSON.stringify(result)); 
     });
   }
 
   setDataProperties(result): void{
+    if (this.paginator) {
+      this.paginator.pageSize = this.pageSize;
+    }
     this.dataSource.data = result;
     this.totalItems = result.length;
     this.dataSource.paginator = this._paginator;
@@ -70,18 +68,39 @@ export class AppComponent implements AfterViewInit {
   }
   
   onPageChange(event: PageEvent): void {
-    // Update current page number and fetch data for the new page
     this.currentPage = event.pageIndex;
     this.pageSize = event.pageSize;
-    this.getFromCache();
   }
 
   navigateToUrl(url: string): void {
     window.open(url, '_blank');
   }
   applyFilter(): void {
-    // Apply filtering based on title and URL criteria
-    this.getFromCache();
+    this.currentPage = 0;
+    const offset = this.currentPage * this.pageSize;
+    this.isLoading = true;
+
+    if (!this.titleFilter || this.titleFilter.trim() === '') {
+      this.setDataProperties(this.originalData);
+      this.isLoading = false;
+      return;
+    }
+    this.filteredData = JSON.parse(JSON.stringify(this.originalData));
+    const lowerCaseSearchTerm = this.titleFilter.toLowerCase();
+    let result = this.filteredData.filter(item => 
+      item.title.toLowerCase().includes(lowerCaseSearchTerm) || 
+      item.url.toLowerCase().includes(lowerCaseSearchTerm)
+    );
+
+    this.setDataProperties(result);
+}
+
+filterData() {
+  const lowerCaseSearchTerm = this.titleFilter.toLowerCase();
+  return this.dataSource.data.filter(item => 
+    item.title.toLowerCase().includes(lowerCaseSearchTerm) || 
+    item.url.toLowerCase().includes(lowerCaseSearchTerm)
+  );
 }
 
 }
